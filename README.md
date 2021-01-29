@@ -7,4 +7,6 @@
 ## STEPS:
 
 - create entities for books, authors + create relation (Many books to One Author).
-- create migrations and migrate to the new database
+- create migrations and migrate to the new database.
+- create crud for authors and books.
+- arrange Author Entity: \_\_toString method + create function to getFullName.

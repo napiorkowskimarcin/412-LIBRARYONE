@@ -61,6 +61,12 @@ class Author
         return $this->lastName;
     }
 
+    public function getFullName(): ?string
+    {
+        
+        return $this->lastName . ' ' . $this->firstName;
+    }
+
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
@@ -96,5 +102,12 @@ class Author
         }
 
         return $this;
+    }
+
+    
+
+    public function __toString()
+    {
+        return $this->getFullName();
     }
 }
