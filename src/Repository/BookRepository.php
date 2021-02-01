@@ -6,6 +6,7 @@ use App\Entity\Book;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 /**
@@ -16,10 +17,27 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BookRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Book::class);
+        $this->paginator = $paginator;
     }
+    // 
+    public function findAllPaginated(int $page,?string $sort_method, ?int $limit) {
+        //sort
+        $sort_method = $sort_method != 'author' ? $sort_method : 'ASC';
+        $limit = $limit;
+        
+        //paginate
+        $dbquery = $this->createQueryBuilder('v')
+        ->orderBy('v.title', $sort_method)
+        ->getQuery();
+
+        $pagination = $this->paginator->paginate($dbquery, $page, $limit);
+        return $pagination;
+    }
+
+
 
     // /**
     //  * @return Book[] Returns an array of Book objects

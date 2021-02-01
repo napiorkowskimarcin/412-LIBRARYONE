@@ -15,19 +15,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BookController extends AbstractController
 {
     /** 
-    *@Route("/{page}", name= "book_index",  defaults={"page":1})
+    *@Route("/show/{page}", name= "book_index",  defaults={"page":1, })
     */
-    public function index(BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,int $page): Response
+    public function index(BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,?int $page): Response
     {
-        $pagination = $paginator->paginate(
-            $bookRepository->findAll(),
-            $page,
-            5
-        );
+
+        $books = $this->getDoctrine()
+        ->getRepository(Book::class)
+        ->findAllPaginated($page, $request->get('sortby'), $request->get('limit',3));
 
 
         return $this->render('book/index.html.twig', [
-            'books' => $pagination
+            'books' => $books
         ]);
     }
 

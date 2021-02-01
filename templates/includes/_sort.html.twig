@@ -1,0 +1,26 @@
+<div class="row align-items-center ml-3">
+     <form id="form-sorting" action="" method="GET" class=' col'>
+     <p class='col'> Sort title by: </p>
+        <select name="sortby" class="custom-select mr-sm-2" id="inlineFormCustomSelect" onchange='this.form.submit();'>
+            <option selected>Sort...</option>
+            <option value="asc">Title A-Z</option>
+            <option value="desc">Title Z-A</option>
+        </select>
+        {% if query is defined %}
+        <input type="hidden" name="query" value="{{query}}">
+        {% endif %}
+    </form>
+     <form id="form-paginating" action="" method="GET" class=' col'>
+        <p class='col'> Results per page: </p>
+        <select name="limit" class="custom-select col mr-sm-2" id="inlineFormCustomSelect" onchange='this.form.submit();'>
+            <option selected>Select</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        {% if query is defined %}
+        <input type="hidden" name="query" value="{{query}}">
+        {% endif %}
+    </form>
+</div>
