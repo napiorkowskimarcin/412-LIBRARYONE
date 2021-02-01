@@ -14,12 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/book')]
 class BookController extends AbstractController
 {
-    #[Route('/', name: 'book_index', methods: ['GET'])]
-    public function index(BookRepository $bookRepository,PaginatorInterface $paginator,Request $request): Response
+    /** 
+    *@Route("/{page}", name= "book_index",  defaults={"page":1})
+    */
+    public function index(BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,int $page): Response
     {
         $pagination = $paginator->paginate(
             $bookRepository->findAll(),
-            $request->query->getInt('page', 1),
+            $page,
             5
         );
 

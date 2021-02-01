@@ -15,3 +15,4 @@
 - create crud for authors and books.
 - arrange Author Entity: \_\_toString method + create function to getFullName.
 - add bootstrap and nav to get index og authors and books.
+- add knp-paginator-bundle
