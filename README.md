@@ -2,7 +2,7 @@
 
 ## CURRENT VIEW:
 
-![](gitphoto/202100201-1.PNG)
+![](gitphoto/202100201-2.PNG)
 
 ## TO ARRANGE AFTER CLONING:
 
