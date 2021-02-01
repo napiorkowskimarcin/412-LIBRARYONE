@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>Author</th>
                 <th>Year</th>
                 <th>ISBN</th>
                 <th>FrontPage</th>
@@ -21,6 +22,7 @@
             <tr>
                 <td>{{ book.id }}</td>
                 <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
                 <td>{{ book.year }}</td>
                 <td>{{ book.ISBN }}</td>
                 <td>  <img src={{ book.frontPage }} alt="" border=3 height=100 width=100></img>  </td>
@@ -36,6 +38,13 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div>
+        {{ knp_pagination_render(books) }}
+    </div>
+    <div>
+        Total books: {{ books.getTotalItemCount }}
+    </div>
 
     <a href="{{ path('book_new') }}">Create new</a>
 {% endblock %}
