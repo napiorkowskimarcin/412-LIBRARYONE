@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Form\AuthorType;
+use App\Repository\AuthorRepository;
+
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
@@ -15,18 +18,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BookController extends AbstractController
 {
     /** 
-    *@Route("/show/{page}", name= "book_index",  defaults={"page":1, })
+    *@Route("/show/{page}", name= "book_index",  defaults={"page":1,"author": 0})
     */
-    public function index(BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,?int $page): Response
+    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,?int $page, ?int $author): Response
     {
+        $authors =$authorRepository->findAll() ;
+
+        $author = $request->query->get('author');
+        
+        //case author is selected
+        if($author >0) {
+        $books = $this->getDoctrine()
+        ->getRepository(Book::class)
+        ->findByAuthPaginated($page, $request->get('sortby'), $request->get('limit',3), $author);
+        return $this->render('book/index.html.twig', [
+            'books' => $books,
+            'authors' => $authors,
+        ]);
+        };
 
         $books = $this->getDoctrine()
         ->getRepository(Book::class)
         ->findAllPaginated($page, $request->get('sortby'), $request->get('limit',3));
 
 
+        
         return $this->render('book/index.html.twig', [
-            'books' => $books
+            'books' => $books,
+            'authors' => $authors,
         ]);
     }
 

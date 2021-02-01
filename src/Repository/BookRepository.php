@@ -25,8 +25,24 @@ class BookRepository extends ServiceEntityRepository
     // 
     public function findAllPaginated(int $page,?string $sort_method, ?int $limit) {
         //sort
-        $sort_method = $sort_method != 'author' ? $sort_method : 'ASC';
+        $sort_method = $sort_method != 'other' ? $sort_method : 'ASC';
         $limit = $limit;
+       
+        
+        //paginate
+        $dbquery = $this->createQueryBuilder('v')
+        ->orderBy('v.title', $sort_method)
+        ->getQuery();
+
+        $pagination = $this->paginator->paginate($dbquery, $page, $limit);
+        return $pagination;
+    }
+    public function findByAuthPaginated(int $page,?string $sort_method, ?int $limit, $author) {
+        //sort
+        $sort_method = $sort_method != 'other' ? $sort_method : 'ASC';
+        $limit = $limit;
+       $author = $author;
+       dump($author);
         
         //paginate
         $dbquery = $this->createQueryBuilder('v')

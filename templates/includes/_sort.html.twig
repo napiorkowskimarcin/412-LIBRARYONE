@@ -23,4 +23,17 @@
         <input type="hidden" name="query" value="{{query}}">
         {% endif %}
     </form>
+    <form id="form-author" action="" method="GET" class=' col'>
+        <p class='col'> Select author: </p>
+        <select name="author" class="custom-select col mr-sm-2" id="inlineFormCustomSelect" onchange='this.form.submit();'>
+            <option selected>Select</option>
+            <option value=0 >All</option>
+           {% for author in authors %}
+        <option value={{author.id}}>  {{author.firstName}} {{author.lastName}}  </option>
+    {% endfor %}
+        </select>
+        {% if query is defined %}
+        <input type="hidden" name="query" value="{{query}}">
+        {% endif %}
+    </form>
 </div>
