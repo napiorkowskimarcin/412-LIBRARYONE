@@ -7,6 +7,8 @@
 ## TO ARRANGE AFTER CLONING:
 
 - env file: arrange DATABASE_URL="mysql://root:@127.0.0.1:3306/libraryone" record.
+- go to: templates/includes/\_sort.html.twig and change values to 5/10/20/50/100 (I did not feed a db with larger amount of item. )
+- arrange default value in BookController - in each of 3 functions that use limit.
 
 ## STEPS:
 
@@ -19,4 +21,4 @@
 - add sorting by title
 - add select author
 - add search for a title (to add better searching - now it matches only perfectly written titles)
-- styling a little bit
+- styling a little bit with bootstrap classess
