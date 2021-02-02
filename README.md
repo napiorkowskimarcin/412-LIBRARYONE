@@ -2,7 +2,7 @@
 
 ## CURRENT VIEW:
 
-![](gitphoto/202100201-2.PNG)
+![](gitphoto/202100202-1.PNG)
 
 ## TO ARRANGE AFTER CLONING:
 
@@ -17,4 +17,6 @@
 - add bootstrap and nav to get index og authors and books.
 - add knp-paginator-bundle
 - add sorting by title
-- add select author (not ready - passed in url only)
+- add select author
+- add search for a title (to add better searching - now it matches only perfectly written titles)
+- styling a little bit

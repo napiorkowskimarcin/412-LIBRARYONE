@@ -18,15 +18,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BookController extends AbstractController
 {
     /** 
-    *@Route("/show/{page}", name= "book_index",  defaults={"page":1,"author": 0})
+    *@Route("/show/{page}", name= "book_index",  defaults={"page":1})
     */
-    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,?int $page, ?int $author): Response
+    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,?int $page, ?int $author,?string $title): Response
     {
+        //FORM - TO SHOW FIRST NAMES AND LAST NAMES IN SELECT INPUT - FILTERING BY AUTHOR:
         $authors =$authorRepository->findAll() ;
 
+        //VARIABLES FROM QUERY:
         $author = $request->query->get('author');
+        $title = $request->query->get('title');
         
-        //case author is selected
+        //CASE - SELECT ONE AUTHOR:
         if($author >0) {
         $books = $this->getDoctrine()
         ->getRepository(Book::class)
@@ -37,6 +40,23 @@ class BookController extends AbstractController
         ]);
         };
 
+        //CASE - FILTER BY TITLE:
+        if(strlen($title) >0){
+           
+        $books = $this->getDoctrine()
+        ->getRepository(Book::class)
+        ->findByTitlePaginated($page, $request->get('sortby'), $request->get('limit',3), $title);
+        return $this->render('book/index.html.twig', [
+            'books' => $books,
+            'authors' => $authors,
+        ]);
+
+        }
+
+        
+
+
+        //CASE - GET ALL BOOKS
         $books = $this->getDoctrine()
         ->getRepository(Book::class)
         ->findAllPaginated($page, $request->get('sortby'), $request->get('limit',3));
