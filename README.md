@@ -2,7 +2,7 @@
 
 ## CURRENT VIEW:
 
-![](gitphoto/202100202-1.PNG)
+![](gitphoto/202100202-2.PNG)
 
 ## TO ARRANGE AFTER CLONING:
 
@@ -20,5 +20,5 @@
 - add knp-paginator-bundle
 - add sorting by title
 - add select author
-- add search for a title (to add better searching - now it matches only perfectly written titles)
+- add search for a title (improved - to verify)
 - styling a little bit with bootstrap classess

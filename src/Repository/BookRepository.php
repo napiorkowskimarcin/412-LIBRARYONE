@@ -58,7 +58,7 @@ class BookRepository extends ServiceEntityRepository
 
 
     // SUPPORT - CASE - FILTER BY TITLE:
-    public function findByTitlePaginated(int $page,?string $sort_method, ?int $limit, $title) {
+    public function findByTitlePaginated(int $page,?string $sort_method, ?int $limit,?string $title) {
         //sort
         $sort_method = $sort_method != 'other' ? $sort_method : 'ASC';
         $limit = $limit;
@@ -66,17 +66,37 @@ class BookRepository extends ServiceEntityRepository
         
         
         
-        //paginate
-        $dbquery = $this->createQueryBuilder('v')
-        ->where('v.title = :title')
-        ->setParameter('title', $title)
-        ->orderBy('v.title', $sort_method)
-        ->getQuery();
+        //paginate and find by title
 
-        $pagination = $this->paginator->paginate($dbquery, $page, $limit);
-        return $pagination;
+        $querybuilder = $this->createQueryBuilder('v');
+        $searchTerms = $this->prepareQuery($title);
+
+        foreach ($searchTerms as $key => $term)
+        {
+            $querybuilder
+                ->orWhere('v.title LIKE :t_'.$key)
+                ->setParameter('t_'.$key, '%'.trim($term).'%'); 
+        }
+
+        $dbquery =  $querybuilder
+            ->orderBy('v.title', $sort_method)
+            ->getQuery();
+
+        return $this->paginator->paginate($dbquery, $page, 5);
+        // $dbquery = $this->createQueryBuilder('v')
+        // ->where('v.title = :title')
+        // ->setParameter('title', $title)
+        // ->orderBy('v.title', $sort_method)
+        // ->getQuery();
+
+        // $pagination = $this->paginator->paginate($dbquery, $page, $limit);
+        // return $pagination;
     }
 
+ private function prepareQuery(string $query): array
+    {
+        return explode(' ',$query);
+    }
 
 
     // /**
