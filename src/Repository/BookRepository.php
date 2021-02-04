@@ -57,14 +57,16 @@ class BookRepository extends ServiceEntityRepository
     }   
 
 
+    //GET BOOKS AS PER DEMAND:
+    public function findBooks(){}
+
+
     // SUPPORT - CASE - FILTER BY TITLE:
     public function findByTitlePaginated(int $page,?string $sort_method, ?int $limit,?string $title) {
         //sort
         $sort_method = $sort_method != 'other' ? $sort_method : 'ASC';
         $limit = $limit;
         $title = $title;
-        
-        
         
         //paginate and find by title
 
@@ -83,14 +85,6 @@ class BookRepository extends ServiceEntityRepository
             ->getQuery();
 
         return $this->paginator->paginate($dbquery, $page, 5);
-        // $dbquery = $this->createQueryBuilder('v')
-        // ->where('v.title = :title')
-        // ->setParameter('title', $title)
-        // ->orderBy('v.title', $sort_method)
-        // ->getQuery();
-
-        // $pagination = $this->paginator->paginate($dbquery, $page, $limit);
-        // return $pagination;
     }
 
  private function prepareQuery(string $query): array

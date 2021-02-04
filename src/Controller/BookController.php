@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
-use App\Form\AuthorType;
-use App\Repository\AuthorRepository;
-
 use App\Entity\Book;
 use App\Form\BookType;
+
+use App\Form\AuthorType;
 use App\Repository\BookRepository;
+use App\Repository\AuthorRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/book')]
 class BookController extends AbstractController
@@ -70,13 +72,37 @@ class BookController extends AbstractController
     }
 
     #[Route('/new', name: 'book_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request ,SluggerInterface $slugger): Response
     {
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //load file: 
+            $frontPageFile = $form->get('frontPage')->getData();
+
+            if ($frontPageFile) {
+                $originalFilename = pathinfo($frontPageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$frontPageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $frontPageFile->move(
+                        $this->getParameter('frontpages_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'frontPageFilename' property to store the PDF file name
+                // instead of its contents
+                $book->setFrontPage($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();
