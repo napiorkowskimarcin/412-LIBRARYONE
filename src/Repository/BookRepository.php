@@ -36,11 +36,16 @@ class BookRepository extends ServiceEntityRepository
         $sort_method = $sort_method != 'other' ? $sort_method : 'ASC';
         $limit = $limit;
         $search = $search;
+
+        //case no search
         if(!$search){
-            $search = '';
-        }
+            $dbquery = $this->createQueryBuilder('v')
+            ->orderBy('v.title', $sort_method)
+            ->getQuery();
+            
+        } else{
         
-        //paginate and find by search
+        //case search
         $qb = $this->createQueryBuilder('b');
             $qb
                 ->innerJoin('App\Entity\Author', 'a', Join::WITH, 'a = b.author')
@@ -56,6 +61,7 @@ class BookRepository extends ServiceEntityRepository
         $dbquery =  $qb
             ->orderBy('b.title', $sort_method)
             ->getQuery();
+        }
         return $this->paginator->paginate($dbquery, $page, 5);
     }
 }
