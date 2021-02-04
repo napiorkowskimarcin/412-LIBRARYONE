@@ -22,56 +22,35 @@ class BookController extends AbstractController
     /** 
     *@Route("/show/{page}", name= "book_index",  defaults={"page":1})
     */
-    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,?int $page, ?int $author,?string $title): Response
+    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,?int $page, ?string $search): Response
     {
         //FORM - TO SHOW FIRST NAMES AND LAST NAMES IN SELECT INPUT - FILTERING BY AUTHOR:
         $authors =$authorRepository->findAll() ;
 
         //VARIABLES FROM QUERY:
-        $author = $request->query->get('author');
-        $title = $request->query->get('title');
-        
-        //CASE - SELECT ONE AUTHOR:
-        if($author >0) {
-        $books = $this->getDoctrine()
-        ->getRepository(Book::class)
-        ->findByAuthPaginated($page, $request->get('sortby'), $request->get('limit',3), $author);
-        return $this->render('book/index.html.twig', [
-            'books' => $books,
-            'authors' => $authors,
-        ]);
-        };
+        $search = $request->query->get('search');
 
         //CASE - FILTER BY TITLE:
-        if(strlen($title) >0){
-           
+        if(strlen($search) >0){  
         $books = $this->getDoctrine()
         ->getRepository(Book::class)
-        ->findByTitlePaginated($page, $request->get('sortby'), $request->get('limit',3), $title);
-        return $this->render('book/index.html.twig', [
-            'books' => $books,
-            'authors' => $authors,
-        ]);
-
+        ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',3), $search? $search: NULL);
         }
-
-        
-
-
-        //CASE - GET ALL BOOKS
-        $books = $this->getDoctrine()
-        ->getRepository(Book::class)
-        ->findAllPaginated($page, $request->get('sortby'), $request->get('limit',3));
-
-
+        // else {
+        // //CASE - GET ALL BOOKS
+        // $books = $this->getDoctrine()
+        // ->getRepository(Book::class)
+        // ->findAllPaginated($page, $request->get('sortby'), $request->get('limit',3));
+        // }
         
         return $this->render('book/index.html.twig', [
             'books' => $books,
             'authors' => $authors,
         ]);
     }
-
-    #[Route('/new', name: 'book_new', methods: ['GET', 'POST'])]
+    /**
+    *@Route("/new", name= "book_new", methods={"GET", "POST"})
+    */
     public function new(Request $request ,SluggerInterface $slugger): Response
     {
         $book = new Book();
@@ -98,8 +77,6 @@ class BookController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
 
-                // updates the 'frontPageFilename' property to store the PDF file name
-                // instead of its contents
                 $book->setFrontPage($newFilename);
             }
 

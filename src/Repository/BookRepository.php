@@ -62,16 +62,15 @@ class BookRepository extends ServiceEntityRepository
 
 
     // SUPPORT - CASE - FILTER BY TITLE:
-    public function findByTitlePaginated(int $page,?string $sort_method, ?int $limit,?string $title) {
+    public function findBySearchPaginated(int $page,?string $sort_method, ?int $limit,?string $search) {
         //sort
         $sort_method = $sort_method != 'other' ? $sort_method : 'ASC';
         $limit = $limit;
-        $title = $title;
+        $search = $search;
         
         //paginate and find by title
-
         $querybuilder = $this->createQueryBuilder('v');
-        $searchTerms = $this->prepareQuery($title);
+        $searchTerms = $this->prepareQuery($search);
 
         foreach ($searchTerms as $key => $term)
         {
