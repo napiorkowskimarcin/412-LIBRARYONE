@@ -31,11 +31,11 @@ class BookController extends AbstractController
         $search = $request->query->get('search');
 
         //CASE - FILTER BY TITLE:
-        if(strlen($search) >0){  
+        // if(strlen($search) >0){  
         $books = $this->getDoctrine()
         ->getRepository(Book::class)
-        ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',3), $search? $search: NULL);
-        }
+        ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',3), $search);
+        // }
         // else {
         // //CASE - GET ALL BOOKS
         // $books = $this->getDoctrine()
