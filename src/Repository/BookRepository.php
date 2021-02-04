@@ -24,15 +24,8 @@ class BookRepository extends ServiceEntityRepository
         $this->paginator = $paginator;
     }
    
-
-
-    //GET BOOKS AS PER DEMAND:
-    public function findBooks(){}
-
-
-    // FILTER BY SEARCH:
     public function findBySearchPaginated(int $page,?string $sort_method, ?int $limit,?string $search) {
-        //sort
+        //sort and variables
         $sort_method = $sort_method != 'other' ? $sort_method : 'ASC';
         $limit = $limit;
         $search = $search;
