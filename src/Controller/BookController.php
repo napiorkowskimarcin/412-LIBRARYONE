@@ -16,7 +16,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/book')]
+/** 
+*@Route("/book")
+*/
 class BookController extends AbstractController
 {
     /** 
@@ -28,26 +30,17 @@ class BookController extends AbstractController
         $authors =$authorRepository->findAll() ;
 
         //VARIABLES FROM QUERY:
-        $search = $request->query->get('search');
-
-        //CASE - FILTER BY TITLE:
-        // if(strlen($search) >0){  
+        $search = $request->query->get('search'); 
         $books = $this->getDoctrine()
         ->getRepository(Book::class)
-        ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',3), $search);
-        // }
-        // else {
-        // //CASE - GET ALL BOOKS
-        // $books = $this->getDoctrine()
-        // ->getRepository(Book::class)
-        // ->findAllPaginated($page, $request->get('sortby'), $request->get('limit',3));
-        // }
+        ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',5), $search);
         
         return $this->render('book/index.html.twig', [
             'books' => $books,
             'authors' => $authors,
         ]);
     }
+    
     /**
     *@Route("/new", name= "book_new", methods={"GET", "POST"})
     */
@@ -92,16 +85,20 @@ class BookController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    #[Route('/{id}', name: 'book_show', methods: ['GET'])]
+    
+    /** 
+    *@Route("/{id}", name= "book_show", methods= {"GET"})
+    */
     public function show(Book $book): Response
     {
         return $this->render('book/show.html.twig', [
             'book' => $book,
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'book_edit', methods: ['GET', 'POST'])]
+    
+    /** 
+    *@Route("/{id}/edit", name= "book_edit", methods={"GET", "POST"})
+    */
     public function edit(Request $request, Book $book): Response
     {
         $form = $this->createForm(BookType::class, $book);
@@ -118,8 +115,10 @@ class BookController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    #[Route('/{id}', name: 'book_delete', methods: ['DELETE'])]
+    
+    /** 
+    *@Route("/{id}", name= "book_delete", methods= {"DELETE"})
+    */
     public function delete(Request $request, Book $book): Response
     {
         if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {

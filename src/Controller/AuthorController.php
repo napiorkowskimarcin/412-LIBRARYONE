@@ -10,10 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/author')]
+/**
+*@Route("/author")
+*/
 class AuthorController extends AbstractController
 {
-    #[Route('/', name: 'author_index', methods: ['GET'])]
+    /**
+    *@Route("/", name= "author_index", methods={"GET"})
+    */
     public function index(AuthorRepository $authorRepository): Response
     {
         return $this->render('author/index.html.twig', [
@@ -21,7 +25,10 @@ class AuthorController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'author_new', methods: ['GET', 'POST'])]
+
+    /**
+    *@Route("/new", name= "author_new", methods={"GET", "POST"})
+    */
     public function new(Request $request): Response
     {
         $author = new Author();
@@ -41,8 +48,10 @@ class AuthorController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    #[Route('/{id}', name: 'author_show', methods: ['GET'])]
+    
+    /** 
+    *@Route("/{id}", name= "author_show", methods= {"GET"})
+    */
     public function show(Author $author): Response
     {
         return $this->render('author/show.html.twig', [
@@ -50,7 +59,9 @@ class AuthorController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'author_edit', methods: ['GET', 'POST'])]
+    /** 
+    *@Route("/{id}/edit", name= "author_edit", methods={"GET", "POST"})
+    */
     public function edit(Request $request, Author $author): Response
     {
         $form = $this->createForm(AuthorType::class, $author);
@@ -68,7 +79,9 @@ class AuthorController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'author_delete', methods: ['DELETE'])]
+    /** 
+    *@Route("/{id}", name= "author_delete", methods= {"DELETE"})
+    */
     public function delete(Request $request, Author $author): Response
     {
         if ($this->isCsrfTokenValid('delete'.$author->getId(), $request->request->get('_token'))) {
