@@ -23,3 +23,4 @@
 - add search for a title (improved - to verify)
 - styling a little bit with bootstrap classess
 - add scss and webpack encore
+- add fixture to feed books and authors
