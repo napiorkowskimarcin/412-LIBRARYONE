@@ -22,4 +22,4 @@
 - add select author
 - add search for a title (improved - to verify)
 - styling a little bit with bootstrap classess
-- add scss
+- add scss and webpack encore

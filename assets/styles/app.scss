@@ -31,7 +31,7 @@ body {
 main.container {
   color: var(--table-text);
   h1 {
-    color: dimgray;
+    color: var(--table-border);
   }
   .table {
     color: var(--table-text);
