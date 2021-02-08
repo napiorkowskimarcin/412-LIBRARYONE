@@ -60,7 +60,6 @@ class BookController extends AbstractController
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$frontPageFile->guessExtension();
 
-                // Move the file to the directory where brochures are stored
                 try {
                     $frontPageFile->move(
                         $this->getParameter('frontpages_directory'),

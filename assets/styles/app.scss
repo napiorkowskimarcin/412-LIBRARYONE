@@ -1,8 +1,72 @@
+:root {
+  --main-bcg: rgb(20, 20, 20);
+  --table-text: white;
+  --table-border: rgb(158, 156, 156);
+  --href-text: black;
+  --button1-bcg: greenyellow;
+  --button2-bcg: lightgreen;
+  --pagin-bcg: lightgray;
+}
+
 body {
-  background-color: lightgray;
-  .container {
-    h1 {
-      color: dimgrey;
+  color: var(--href-text);
+  background-color: var(--main-bcg);
+  a {
+    color: var(--href-text);
+  }
+}
+
+.form-row {
+  .row {
+    .col {
+      button {
+        border-color: var(--table-border);
+        background-color: var(--button1-bcg);
+        color: var(--href-text);
+      }
     }
+  }
+}
+
+main.container {
+  color: var(--table-text);
+  h1 {
+    color: dimgray;
+  }
+  .table {
+    color: var(--table-text);
+    td {
+      line-height: 3;
+      border: 2px solid var(--table-border);
+      img {
+        width: auto;
+      }
+    }
+    a {
+      background-color: var(--button2-bcg);
+      transition: 0.5s;
+      color: var(--href-text);
+      &:hover {
+        background-color: var(--button1-bcg);
+      }
+    }
+  }
+  .pagination li a {
+    color: var(--href-text);
+    background-color: var(--pagin-bcg);
+  }
+  a {
+    padding: 5px;
+    border: 1px solid var(--table-border);
+    border-radius: 5px;
+    color: inherit;
+    text-decoration: none;
+  }
+  > div {
+    margin: 10px 0;
+  }
+  > a {
+    color: var(--href-text);
+    background-color: var(--button1-bcg);
   }
 }
