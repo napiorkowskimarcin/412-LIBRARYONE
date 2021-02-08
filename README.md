@@ -2,7 +2,7 @@
 
 ## CURRENT VIEW:
 
-![](gitphoto/202100204-1.PNG)
+![](gitphoto/202100208-1.PNG)
 
 ## TO ARRANGE AFTER CLONING:
 
@@ -22,3 +22,4 @@
 - add select author
 - add search for a title (improved - to verify)
 - styling a little bit with bootstrap classess
+- add scss
