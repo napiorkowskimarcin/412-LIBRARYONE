@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 
-use App\Form\AuthorType;
 use App\Repository\BookRepository;
 use App\Repository\AuthorRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -24,15 +23,14 @@ class BookController extends AbstractController
     /** 
     *@Route("/show/{page}", name= "book_index",  defaults={"page":1})
     */
-    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,PaginatorInterface $paginator,Request $request,?int $page, ?string $search): Response
+    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,Request $request,?int $page, ?string $search): Response
     {
         //FORM - TO SHOW FIRST NAMES AND LAST NAMES IN SELECT INPUT - FILTERING BY AUTHOR:
         $authors =$authorRepository->findAll() ;
-
         //VARIABLES FROM QUERY:
         $search = $request->query->get('search'); 
-        $books = $this->getDoctrine()
-        ->getRepository(Book::class)
+        
+        $books = $bookRepository
         ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',5), $search);
         
         return $this->render('book/index.html.twig', [

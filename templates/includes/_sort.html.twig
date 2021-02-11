@@ -36,9 +36,8 @@
         <input type="hidden" name="query" value="{{query}}">
         {% endif %}
     </form> #}
-    
-    <form method="GET" class="col d-flex flex-column align-items-center" action="">
-        <input name="search" class=" col col-xs-2 mb-1" type="search" placeholder="...search" aria-label="...title">
-        <button class="btn btn-primary col btn-sm" type="submit">Look for</button>
+    {{ encore_entry_script_tags('book') }} 
+    <form id="search" method="GET" class="col d-flex flex-column align-items-center" action="" autocomplete="off">
+        <input id="input" name="search" class=" col col-xs-2 mb-1" type="search" placeholder="...search" aria-label="...title">
     </form>
 </div>

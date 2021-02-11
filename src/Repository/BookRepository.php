@@ -55,6 +55,6 @@ class BookRepository extends ServiceEntityRepository
             ->orderBy('b.title', $sort_method)
             ->getQuery();
         }
-        return $this->paginator->paginate($dbquery, $page, 5);
+        return $this->paginator->paginate($dbquery, $page, $limit);
     }
 }

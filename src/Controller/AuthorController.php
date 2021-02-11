@@ -18,13 +18,15 @@ class AuthorController extends AbstractController
     /**
     *@Route("/", name= "author_index", methods={"GET"})
     */
-    public function index(AuthorRepository $authorRepository): Response
+    public function index(AuthorRepository $authorRepository,Request $request,?string $search): Response
     {
-        return $this->render('author/index.html.twig', [
-            'authors' => $authorRepository->findAll(),
+        $search = $request->query->get('search'); 
+            return $this->render('author/index.html.twig', [
+            'authors' => $authorRepository->findAuthor($search),
         ]);
+        
+        
     }
-
 
     /**
     *@Route("/new", name= "author_new", methods={"GET", "POST"})

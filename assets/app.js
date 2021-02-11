@@ -10,3 +10,7 @@ import "./styles/app.scss";
 
 // start the Stimulus application
 import "./bootstrap";
+
+// require jQuery normally
+import $ from "jquery";
+global.$ = global.jQuery = $;

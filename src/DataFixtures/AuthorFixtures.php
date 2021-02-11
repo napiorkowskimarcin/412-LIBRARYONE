@@ -12,6 +12,7 @@ class AuthorFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        
         $this->loadAuthors($manager);
         $this->loadBooks($manager);
         
@@ -26,7 +27,6 @@ class AuthorFixtures extends Fixture
         $author->setLastName($name2);
         $manager->persist($author);
         $manager->flush();
-        // $this->setReference('author'.$key, $author);
     }
 }
 
@@ -47,15 +47,14 @@ class AuthorFixtures extends Fixture
 
     private function getAuthorData(){
         return [
-            ['aaaa', 'bbbbb'],
-            ['bbbb', 'ggggg'],
-            ['cccc', 'fffff'],
-            ['ddddd', 'bbbbb'],
-            ['eeee', 'hhhhh'],
-            ['fffff', 'cccc'],
-            ['gggg', 'eeeee'],
-            ['hhhh', 'aaaaa'],
-            
+            ['ada', 'bbbbb'],
+            ['adama', 'ggggg'],
+            ['adamama', 'fffff'],
+            ['dam', 'bbbbb'],
+            ['dama', 'hhhhh'],
+            ['mam', 'cccc'],
+            ['mama', 'eeeee'],
+            ['amama', 'aaaaa'],
             ];
     }
 
@@ -67,6 +66,30 @@ class AuthorFixtures extends Fixture
             ['title4', 2004, 21122114, "two.jpg", '4'],
             ['title5', 2005, 21122111, "three.jpg", '5'],
             ['title6', 2006, 21122111, "two.jpg", '6'],
+            ['title7', 2000, 21122111, "one.jpg", '1'],
+            ['title8', 2002, 21122112, "three.jpg", '2'],
+            ['title9', 2003, 21122113, "four.jpg", '3'],
+            ['title10', 2004, 21122114, "two.jpg", '4'],
+            ['title11', 2005, 21122111, "three.jpg", '5'],
+            ['title12', 2006, 21122111, "two.jpg", '6'],
+            ['title13', 2000, 21122111, "one.jpg", '1'],
+            ['title14', 2002, 21122112, "three.jpg", '2'],
+            ['title15', 2003, 21122113, "four.jpg", '3'],
+            ['title16', 2004, 21122114, "two.jpg", '4'],
+            ['title17', 2005, 21122111, "three.jpg", '5'],
+            ['title18', 2006, 21122111, "two.jpg", '6'],
+            ['title19', 2000, 21122111, "one.jpg", '1'],
+            ['title20', 2002, 21122112, "three.jpg", '2'],
+            ['title21', 2003, 21122113, "four.jpg", '3'],
+            ['title22', 2004, 21122114, "two.jpg", '4'],
+            ['title23', 2005, 21122111, "three.jpg", '5'],
+            ['title24', 2006, 21122111, "two.jpg", '6'],
+            ['title25', 2000, 21122111, "one.jpg", '1'],
+            ['title26', 2002, 21122112, "three.jpg", '2'],
+            ['title27', 2003, 21122113, "four.jpg", '3'],
+            ['title28', 2004, 21122114, "two.jpg", '4'],
+            ['title29', 2005, 21122111, "three.jpg", '5'],
+            ['title30', 2006, 21122111, "two.jpg", '6'],
             ];
     }
 }

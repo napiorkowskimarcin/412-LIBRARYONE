@@ -3,23 +3,29 @@
 {% block title %}Author index{% endblock %}
 
 {% block body %}
-    <h1>List of all authors</h1>
-
+    {{ encore_entry_script_tags('author') }} 
+    <h1>List of authors</h1>
+    <h4>Use search bar to find your favourite author!</h4>
+    <div>
+    <form id="search" method="GET" class="col d-flex flex-column align-items-center" action="" autocomplete="off">
+    <input id="input" name="search" class=" col col-xs-2 mb-1" type="search" placeholder="...search" aria-label="...title">
+    </form>
+    </div>
     <table class="table">
         <thead>
             <tr>
-                <th  class="text-center">Id</th>
-                <th  class="text-center">FirstName</th>
                 <th  class="text-center">LastName</th>
+                <th  class="text-center">FirstName</th>
+                <th  class="text-center">Id</th>
                 <th  class="text-center">actions</th>
             </tr>
         </thead>
         <tbody>
         {% for author in authors %}
             <tr>
-                <td  class="text-center">{{ author.id }}</td>
-                <td  class="text-center">{{ author.firstName }}</td>
                 <td  class="text-center">{{ author.lastName }}</td>
+                <td  class="text-center">{{ author.firstName }}</td>
+                <td  class="text-center">{{ author.id }}</td>
                 <td  class="text-center">
                     <a href="{{ path('author_show', {'id': author.id}) }}">show</a>
                     <a href="{{ path('author_edit', {'id': author.id}) }}">edit</a>
@@ -32,6 +38,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <h4>Use search bar to see more....</h4>
     <a href="{{ path('author_new') }}">Create new</a>
 {% endblock %}
