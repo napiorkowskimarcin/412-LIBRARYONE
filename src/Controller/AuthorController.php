@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Author;
 use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
 *@Route("/author")
@@ -16,16 +17,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class AuthorController extends AbstractController
 {
     /**
-    *@Route("/", name= "author_index", methods={"GET"})
+    *@Route("/", name= "author_index", methods={"GET",})
     */
-    public function index(AuthorRepository $authorRepository,Request $request,?string $search): Response
+    public function index(AuthorRepository $authorRepository,Request $request): Response
     {
-        $search = $request->query->get('search'); 
+        if($request->get('search')){
+            $search = $request->get('search');
+            $authors = $authorRepository->findAuthor($search);
+            $template = $this->render('author/_author_loop.html.twig', [
+            'authors' => $authors,
+            ])->getContent();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            return $response->setData(['template' => $template ]); 
+        }else {
+            $search = null;
+            $authors = $authorRepository->findAuthor($search);
             return $this->render('author/index.html.twig', [
-            'authors' => $authorRepository->findAuthor($search),
+            'authors' => $authors,
         ]);
-        
-        
+        }
     }
 
     /**

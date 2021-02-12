@@ -5,13 +5,14 @@
 {% block body %}
     {{ encore_entry_script_tags('author') }} 
     <h1>List of authors</h1>
+   
     <h4>Use search bar to find your favourite author!</h4>
     <div>
     <form id="search" method="GET" class="col d-flex flex-column align-items-center" action="" autocomplete="off">
-    <input id="input" name="search" class=" col col-xs-2 mb-1" type="search" placeholder="...search" aria-label="...title">
+        <input id="input" name="search" class=" col col-xs-2 mb-1" type="search" placeholder="...search" aria-label="...title">
     </form>
     </div>
-    <table class="table">
+    <table class="table" >
         <thead>
             <tr>
                 <th  class="text-center">LastName</th>
@@ -20,22 +21,8 @@
                 <th  class="text-center">actions</th>
             </tr>
         </thead>
-        <tbody>
-        {% for author in authors %}
-            <tr>
-                <td  class="text-center">{{ author.lastName }}</td>
-                <td  class="text-center">{{ author.firstName }}</td>
-                <td  class="text-center">{{ author.id }}</td>
-                <td  class="text-center">
-                    <a href="{{ path('author_show', {'id': author.id}) }}">show</a>
-                    <a href="{{ path('author_edit', {'id': author.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
+        <tbody id="table">
+            {% include 'author/_author_loop.html.twig' %}
         </tbody>
     </table>
     <h4>Use search bar to see more....</h4>

@@ -23,7 +23,7 @@ class AuthorRepository extends ServiceEntityRepository
     public function findAuthor(?string $search) {
         $search = $search;
         $qb = $this->createQueryBuilder('a');
-        
+        //dump($search);
         if($search){
         //case search
             $qb

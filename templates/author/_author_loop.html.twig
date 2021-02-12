@@ -1,0 +1,15 @@
+{% for author in authors %}
+            <tr>
+                <td  class="text-center">{{ author.lastName }}</td>
+                <td  class="text-center">{{ author.firstName }}</td>
+                <td  class="text-center">{{ author.id }}</td>
+                <td  class="text-center">
+                    <a href="{{ path('author_show', {'id': author.id}) }}">show</a>
+                    <a href="{{ path('author_edit', {'id': author.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+{% endfor %}
