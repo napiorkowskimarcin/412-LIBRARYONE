@@ -1,3 +1,17 @@
+<table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">Author</th>
+                <th class="text-center">Title</th>
+                <th class="text-center">Year</th>
+                <th class="text-center">ISBN</th>
+                <th class="text-center">FrontPage</th>
+                <th class="text-center">Id</th>
+                <th class="text-center">actions</th>
+            </tr>
+        </thead>
+        <tbody >
+
 {% for book in books %}
             <tr>
                 <td class="text-center">{{ book.author }}</td>
@@ -15,4 +29,20 @@
             <tr>
                 <td colspan="6">no records found</td>
             </tr>
-{% endfor %}
+{% endfor %}  
+        </tbody>
+    </table>
+    {% if app.request.isXmlHttpRequest == false %}
+   <div>
+        {{ knp_pagination_render(books) }}
+    </div>
+    <div>
+        Total books: {{ books.getTotalItemCount }}
+    </div>
+{% endif %}
+
+
+
+
+
+ 

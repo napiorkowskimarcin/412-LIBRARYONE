@@ -37,38 +37,42 @@ class BookRepository extends ServiceEntityRepository
             $dbquery = $this->createQueryBuilder('b')
             ->orderBy('b.title', $sort_method)
             ->getQuery();
-        } else if($searchTitle){
-        //case search
+            return $this->paginator->paginate($dbquery, $page, $limit);
+
+        }else {
+            
+        if($searchTitle){
         $qb = $this->createQueryBuilder('b');
             $qb
-                //->innerJoin('App\Entity\Author', 'a', Join::WITH, 'a = b.author')
                 ->where($qb->expr()->orX(
                     $qb->expr()->like('b.title', ':search'),
-                    // $qb->expr()->like('b.ISBN', ':search'),
-                    // $qb->expr()->like('b.year', ':search'),
-                    // $qb->expr()->like('a.firstName', ':search'),
-                    // $qb->expr()->like('a.lastName', ':search'),
                 ))
                 ->setParameter('search', '%'.trim($searchTitle).'%'); 
-        $dbquery =  $qb
-            ->orderBy('b.title', $sort_method)
-            ->getQuery();
-        } else if ($searchAuthor){
+        } 
+        if ($searchAuthor){
              $qb = $this->createQueryBuilder('b');
             $qb
                 ->innerJoin('App\Entity\Author', 'a', Join::WITH, 'a = b.author')
                 ->where($qb->expr()->orX(
-                    //$qb->expr()->like('b.title', ':search'),
-                    // $qb->expr()->like('b.ISBN', ':search'),
-                    // $qb->expr()->like('b.year', ':search'),
                     $qb->expr()->like('a.firstName', ':search'),
                     $qb->expr()->like('a.lastName', ':search'),
                 ))
-                ->setParameter('search', '%'.trim($searchAuthor).'%'); 
-        $dbquery =  $qb
-            ->orderBy('b.title', $sort_method)
-            ->getQuery();
+                ->setParameter('search', '%'.trim($searchAuthor).'%');
         }
-        return $this->paginator->paginate($dbquery, $page, $limit);
+        if ($searchIsbn){
+            $qb = $this->createQueryBuilder('b');
+            $qb
+                ->where($qb->expr()->orX(
+                $qb->expr()->like('b.ISBN', ':search'),
+                ))
+                ->setParameter('search', '%'.trim($searchIsbn).'%'); 
+        
+        }
+        return $dbquery =  $qb
+            ->orderBy('b.title', $sort_method)
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
     }
+}
 }
