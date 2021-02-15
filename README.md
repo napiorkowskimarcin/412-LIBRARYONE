@@ -2,7 +2,7 @@
 
 ## CURRENT VIEW:
 
-![](gitphoto/202100208-1.PNG)
+![](gitphoto/202100215-1.PNG)
 
 ## TO ARRANGE AFTER CLONING:
 
@@ -25,3 +25,4 @@
 - styling a little bit with bootstrap classess
 - add scss and webpack encore
 - add fixture to feed books and authors
+- add search by author name, book title and isbn with ajax
