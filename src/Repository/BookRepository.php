@@ -32,15 +32,16 @@ class BookRepository extends ServiceEntityRepository
         $searchAuthor = $searchAuthor;
         $searchIsbn = $searchIsbn;
 
+         $qb = $this->createQueryBuilder('b');
         //case no search
         if(!$searchTitle && !$searchIsbn && !$searchAuthor){
-            $dbquery = $this->createQueryBuilder('b')
+           $qb
             ->orderBy('b.title', $sort_method)
             ->getQuery();
-            return $this->paginator->paginate($dbquery, $page, $limit);
+            return $this->paginator->paginate($qb, $page, $limit);
 
         }else {
-            
+        //case search    
         if($searchTitle){
         $qb = $this->createQueryBuilder('b');
             $qb
@@ -50,7 +51,6 @@ class BookRepository extends ServiceEntityRepository
                 ->setParameter('search', '%'.trim($searchTitle).'%'); 
         } 
         if ($searchAuthor){
-             $qb = $this->createQueryBuilder('b');
             $qb
                 ->innerJoin('App\Entity\Author', 'a', Join::WITH, 'a = b.author')
                 ->where($qb->expr()->orX(
@@ -60,7 +60,6 @@ class BookRepository extends ServiceEntityRepository
                 ->setParameter('search', '%'.trim($searchAuthor).'%');
         }
         if ($searchIsbn){
-            $qb = $this->createQueryBuilder('b');
             $qb
                 ->where($qb->expr()->orX(
                 $qb->expr()->like('b.ISBN', ':search'),
@@ -68,11 +67,10 @@ class BookRepository extends ServiceEntityRepository
                 ->setParameter('search', '%'.trim($searchIsbn).'%'); 
         
         }
-        return $dbquery =  $qb
+        return  $qb
             ->orderBy('b.title', $sort_method)
             ->setMaxResults(3)
             ->getQuery()
             ->getResult();
-    }
-}
+    }}
 }
