@@ -3,11 +3,15 @@
 {% block title %}Book index{% endblock %}
 
 {% block body %}
-    <h1>List of all books:</h1>
+{{ encore_entry_script_tags('book') }} 
+    <h3>List of all books:</h3>
     <div class="form-row align-items-center ml-3">  
-    {{include('includes/_sort.html.twig')}}  
+        {{include('includes/_sort.html.twig')}}  
     </div>
-
+    <div class="form-row align-items-center ml-3">  
+        {{include('book/_search_bar.html.twig')}}  
+    </div>
+    
     <table class="table">
         <thead>
             <tr>
@@ -20,34 +24,15 @@
                 <th class="text-center">actions</th>
             </tr>
         </thead>
-        <tbody>
-        {% for book in books %}
-            <tr>
-                <td class="text-center">{{ book.author }}</td>
-                <td class="text-center">{{ book.title }}</td>
-                <td class="text-center">{{ book.year }}</td>
-                <td class="text-center">{{ book.ISBN }}</td>
-                <td class="text-center">  <img src="{{ asset('uploads/frontpages/' ~ book.frontpage) }}"alt="" border=3 height=100 width=100></img>  </td>
-                <td class="text-center">{{ book.id }}</td>
-                <td class="text-center" >
-                    <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
+        <tbody id='table'>
+            {% include 'book/_book_loop.html.twig' %}
         </tbody>
     </table>
-
-    <div>
+          <div>
         {{ knp_pagination_render(books) }}
     </div>
     <div>
         Total books: {{ books.getTotalItemCount }}
     </div>
-
     <a href="{{ path('book_new') }}">Create new</a>
 {% endblock %}

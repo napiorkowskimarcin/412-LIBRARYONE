@@ -1,0 +1,18 @@
+{% for book in books %}
+            <tr>
+                <td class="text-center">{{ book.author }}</td>
+                <td class="text-center">{{ book.title }}</td>
+                <td class="text-center">{{ book.year }}</td>
+                <td class="text-center">{{ book.ISBN }}</td>
+                <td class="text-center">  <img src="{{ asset('uploads/frontpages/' ~ book.frontpage) }}"alt="" border=3 height=100 width=100></img>  </td>
+                <td class="text-center">{{ book.id }}</td>
+                <td class="text-center" >
+                    <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
+                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
+                </td>
+            </tr>
+{% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+{% endfor %}

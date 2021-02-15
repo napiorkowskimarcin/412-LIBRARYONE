@@ -11,9 +11,10 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 /** 
 *@Route("/book")
@@ -23,15 +24,28 @@ class BookController extends AbstractController
     /** 
     *@Route("/show/{page}", name= "book_index",  defaults={"page":1})
     */
-    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,Request $request,?int $page, ?string $search): Response
+    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,Request $request,?int $page): Response
     {
         //FORM - TO SHOW FIRST NAMES AND LAST NAMES IN SELECT INPUT - FILTERING BY AUTHOR:
         $authors =$authorRepository->findAll() ;
         //VARIABLES FROM QUERY:
-        $search = $request->query->get('search'); 
-        
+        $searchTitle = $request->get('title');
+        $searchIsbn = $request->get('isbn');
+        $searchAuthor = $request->get('author');
+
+        if($searchTitle || $searchIsbn){
+            $books = $bookRepository
+                ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',5), $searchTitle, $searchIsbn, $searchAuthor);
+            $template = $this->render('book/_book_loop.html.twig', [
+            'books' => $books,
+            ])->getContent();
+            $response = new JsonResponse();
+            $response->setStatusCode(200);
+            return $response->setData(['template' => $template ]); 
+        }
+
         $books = $bookRepository
-        ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',5), $search);
+        ->findBySearchPaginated($page, $request->get('sortby'), $request->get('limit',5), $searchTitle, $searchIsbn, $searchAuthor);
         
         return $this->render('book/index.html.twig', [
             'books' => $books,

@@ -23,21 +23,5 @@
         <input type="hidden" name="query" value="{{query}}">
         {% endif %}
     </form>
-    {# <form id="form-author" action="" method="GET" class=' col'>
-        <p class='col'> Select author: </p>
-        <select name="author" class="custom-select col mr-sm-2" id="inlineFormCustomSelect" onchange='this.form.submit();'>
-            <option selected>Select</option>
-            <option value=0 >All</option>
-           {% for author in authors %}
-        <option value={{author.id}}>  {{author.firstName}} {{author.lastName}}  </option>
-    {% endfor %}
-        </select>
-        {% if query is defined %}
-        <input type="hidden" name="query" value="{{query}}">
-        {% endif %}
-    </form> #}
-    {{ encore_entry_script_tags('book') }} 
-    <form id="search" method="GET" class="col d-flex flex-column align-items-center" action="" autocomplete="off">
-        <input id="input" name="search" class=" col col-xs-2 mb-1" type="search" placeholder="...search" aria-label="...title">
-    </form>
+    
 </div>
