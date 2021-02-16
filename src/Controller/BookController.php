@@ -6,15 +6,12 @@ use App\Entity\Book;
 use App\Form\BookType;
 
 use App\Repository\BookRepository;
-use App\Repository\AuthorRepository;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Service\FileUploadService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /** 
 *@Route("/book")
@@ -24,7 +21,7 @@ class BookController extends AbstractController
     /** 
     *@Route("/show/{page}", name= "book_index",  defaults={"page":1})
     */
-    public function index(AuthorRepository $authorRepository, BookRepository $bookRepository,Request $request,?int $page): Response
+    public function index(BookRepository $bookRepository,Request $request,?int $page): Response
     {
         //FORM - TO SHOW FIRST NAMES AND LAST NAMES IN SELECT INPUT - FILTERING BY AUTHOR:
         //VARIABLES FROM QUERY:
@@ -53,7 +50,7 @@ class BookController extends AbstractController
     /**
     *@Route("/new", name= "book_new", methods={"GET", "POST"})
     */
-    public function new(Request $request ,SluggerInterface $slugger): Response
+    public function new(Request $request ,FileUploadService $fileUploader): Response
     {
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
@@ -64,21 +61,8 @@ class BookController extends AbstractController
             $frontPageFile = $form->get('frontPage')->getData();
 
             if ($frontPageFile) {
-                $originalFilename = pathinfo($frontPageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$frontPageFile->guessExtension();
-
-                try {
-                    $frontPageFile->move(
-                        $this->getParameter('frontpages_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                $book->setFrontPage($newFilename);
+                $frontpageFileName = $fileUploader->upload($frontPageFile);
+                $book->setFrontPage($frontpageFileName);
             }
 
             $entityManager = $this->getDoctrine()->getManager();

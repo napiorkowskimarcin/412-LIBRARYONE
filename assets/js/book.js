@@ -5,7 +5,6 @@ let sendAjax = {
   ajax: true,
   type: "get",
   url: path,
-  // data: "",
   dataType: "html",
   success: function (data) {
     response = JSON.parse(data);
