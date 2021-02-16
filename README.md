@@ -26,3 +26,4 @@
 - add scss and webpack encore
 - add fixture to feed books and authors
 - add search by author name, book title and isbn with ajax
+- create service to handle FileUpload
